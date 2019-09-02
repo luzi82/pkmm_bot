@@ -5,6 +5,8 @@ import os
 import numpy
 import time
 import argparse
+import datetime
+import sys
 
 ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
 
@@ -46,8 +48,8 @@ if __name__ == '__main__':
 
 	fail_count = 0
 	while True:
-		print('HBRBLHOVFW fail_count={fail_count}'.format(fail_count=fail_count))
-		if fail_count >= 5:
+		print('HBRBLHOVFW datetime={datetime} fail_count={fail_count}'.format(datetime=datetime.datetime.now(),fail_count=fail_count))
+		if fail_count >= 10:
 			break
 		try:
 			print('ITOFBVBERF')
@@ -113,5 +115,8 @@ if __name__ == '__main__':
 			subprocess.Popen([ADB,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
 			time.sleep(5)
+		except KeyboardInterrupt as e:
+			break
 		except:
+			print(sys.exc_info()[0])
 			fail_count += 1
