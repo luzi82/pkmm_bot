@@ -4,10 +4,15 @@ import io
 import os
 import numpy
 import time
+import argparse
 
 ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
 
 if __name__ == '__main__':
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument("battle_select_2", type=int)
+	arg = parser.parse_args()
 
 	image_type_to_data_dict = {}
 
@@ -90,9 +95,12 @@ if __name__ == '__main__':
 			xy = None
 			
 			if image_type == 'battle_select_2':
-				xy = (720,700) # very hard
-				# xy = (720,1150) # hard
-				# xy = (720,1600) # normal
+				if arg.battle_select_2 == 0:
+					xy = (720,700) # very hard
+				elif arg.battle_select_2 == 1:
+					xy = (720,1150) # hard
+				elif arg.battle_select_2 == 2:
+					xy = (720,1600) # normal
 			elif image_type == 'battle_pre':
 				xy = (720,2450)
 			elif image_type == 'battle_end_0_level_up':
