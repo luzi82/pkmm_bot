@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("battle_select_2", type=int)
+	parser.add_argument("tcpip_addr", type=str)
 	arg = parser.parse_args()
 
 	image_type_to_data_dict = {}
@@ -96,13 +97,15 @@ if __name__ == '__main__':
 			
 			xy = None
 			
-			if image_type == 'battle_select_2':
+			if image_type == 'battle_select_solo_2' or image_type == 'battle_select_multi_2':
 				if arg.battle_select_2 == 0:
 					xy = (720,700) # very hard
 				elif arg.battle_select_2 == 1:
 					xy = (720,1150) # hard
 				elif arg.battle_select_2 == 2:
 					xy = (720,1600) # normal
+			elif image_type == 'battle_select_multi_3':
+				xy = (360,1280)
 			elif image_type == 'battle_pre':
 				xy = (720,2450)
 			elif image_type == 'battle_end_0_level_up':
@@ -111,6 +114,10 @@ if __name__ == '__main__':
 				xy = (720,1280)
 			elif image_type == 'battle_end_2':
 				xy = (720,2450)
+			elif image_type == 'battle_end_3':
+				xy = (720,2450)
+			elif image_type == 'battle_bad_network':
+				xy = (720,1280)
 			elif image_type == 'error':
 				xy = (720,2000)
 			
@@ -119,6 +126,11 @@ if __name__ == '__main__':
 			time.sleep(5)
 		except KeyboardInterrupt as e:
 			break
+		except OSError as e:
+			print(sys.exc_info()[0])
+			subprocess.Popen([ADB,'connect',arg.tcpip_addr], stdout=subprocess.PIPE).communicate(timeout=10)
+			time.sleep(10)
+			fail_count += 1
 		except:
 			print(sys.exc_info()[0])
 			time.sleep(10)
