@@ -104,6 +104,13 @@ if __name__ == '__main__':
 					xy = (720,1150) # hard
 				elif arg.battle_select_2 == 2:
 					xy = (720,1600) # normal
+			elif image_type == 'battle_select_multii_2':
+				if arg.battle_select_2 == 0:
+					xy = (720,500) # very hard
+				elif arg.battle_select_2 == 1:
+					xy = (720,1150) # hard
+				elif arg.battle_select_2 == 2:
+					xy = (720,1600) # normal
 			elif image_type == 'battle_select_multi_3':
 				xy = (360,1280)
 			elif image_type == 'battle_pre':
