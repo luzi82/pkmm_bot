@@ -111,6 +111,8 @@ if __name__ == '__main__':
 				xy = (720,1280)
 			elif image_type == 'battle_end_2':
 				xy = (720,2450)
+			elif image_type == 'error':
+				xy = (720,2000)
 			
 			subprocess.Popen([ADB,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
@@ -119,4 +121,5 @@ if __name__ == '__main__':
 			break
 		except:
 			print(sys.exc_info()[0])
+			time.sleep(10)
 			fail_count += 1
