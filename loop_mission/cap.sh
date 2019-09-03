@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -e
+
 ADB=/home/luzi82/Android/Sdk/platform-tools/adb
 T=`date +%Y%m%d%H%M%S`
 
