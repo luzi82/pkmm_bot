@@ -7,6 +7,7 @@ import time
 import argparse
 import datetime
 import sys
+import random
 
 ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
 
@@ -128,6 +129,7 @@ if __name__ == '__main__':
 			elif image_type == 'error':
 				xy = (720,2000)
 			
+			xy = tuple(i+random.randint(-5,5) for i in xy)
 			subprocess.Popen([ADB,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
 			time.sleep(5)
