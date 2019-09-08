@@ -15,6 +15,9 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("tcpip_addr", type=str)
+	parser.add_argument("solo_multi", type=str)
+	parser.add_argument("battle_select_0", type=int)
+	parser.add_argument("battle_select_1", type=int)
 	parser.add_argument("battle_select_2", type=int)
 	arg = parser.parse_args()
 
@@ -55,7 +58,7 @@ if __name__ == '__main__':
 			break
 		try:
 			print('ITOFBVBERF')
-			process = subprocess.Popen([ADB,'exec-out','screencap','-p'], stdout=subprocess.PIPE)
+			process = subprocess.Popen([ADB,'-s',arg.tcpip_addr,'exec-out','screencap','-p'], stdout=subprocess.PIPE)
 			stdout, stderr = process.communicate(timeout=10)
 			print('VRTYSJJQRZ')
 			bytes_in = io.BytesIO(stdout)
@@ -96,9 +99,34 @@ if __name__ == '__main__':
 			image_type = list(image_type)[0][0]
 			print(image_type)
 			
+			image_type = image_type.split('.')
+			image_type = image_type[0]
+			
 			xy = None
 			
-			if image_type == 'battle_select_solo_2' or image_type == 'battle_select_multi_2':
+			if image_type == 'battle_select_solo_0' or image_type == 'battle_select_multi_0':
+				if image_type == 'battle_select_solo_0' and arg.solo_multi == 'm':
+					xy = (1080,320)
+				elif image_type == 'battle_select_multi_0' and arg.solo_multi == 's':
+					xy = (360,320)
+				elif arg.battle_select_0 == 0:
+					xy = (720,650)
+				elif arg.battle_select_0 == 1:
+					xy = (720,950)
+				elif arg.battle_select_0 == 2:
+					xy = (720,1250)
+				elif arg.battle_select_0 == 3:
+					xy = (720,1550)
+			elif image_type == 'battle_select_solo_1' or image_type == 'battle_select_multi_1':
+				if arg.battle_select_1 == 0:
+					xy = (720,700)
+				elif arg.battle_select_1 == 1:
+					xy = (720,1100)
+				elif arg.battle_select_1 == 2:
+					xy = (720,1500)
+				elif arg.battle_select_1 == 3:
+					xy = (720,1900)
+			elif image_type == 'battle_select_solo_2' or image_type == 'battle_select_multi_2':
 				if arg.battle_select_2 == 0:
 					xy = (720,700) # very hard
 				elif arg.battle_select_2 == 1:
@@ -128,9 +156,15 @@ if __name__ == '__main__':
 				xy = (720,1280)
 			elif image_type == 'error':
 				xy = (720,2000)
+			elif image_type == 'error_entry':
+				xy = (720,1700)
+			elif image_type == 'title':
+				xy = (720,1280)
+			elif image_type == 'menu':
+				xy = (720,2450)
 			
 			xy = tuple(i+random.randint(-5,5) for i in xy)
-			subprocess.Popen([ADB,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
+			subprocess.Popen([ADB,'-s',arg.tcpip_addr,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
 			time.sleep(5)
 		except KeyboardInterrupt as e:
