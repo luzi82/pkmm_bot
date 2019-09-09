@@ -162,6 +162,8 @@ if __name__ == '__main__':
 				xy = (720,1280)
 			elif image_type == 'menu':
 				xy = (720,2450)
+			elif image_type == 'news':
+				xy = (1330,2330)
 			
 			xy = tuple(i+random.randint(-5,5) for i in xy)
 			subprocess.Popen([ADB,'-s',arg.tcpip_addr,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
