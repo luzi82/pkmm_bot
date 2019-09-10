@@ -9,7 +9,8 @@ import datetime
 import sys
 import random
 
-ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
+#ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
+ADB = '/Users/jenkins/Library/Android/sdk/platform-tools/adb'
 
 if __name__ == '__main__':
 
@@ -158,6 +159,8 @@ if __name__ == '__main__':
 				xy = (720,2000)
 			elif image_type == 'error_entry':
 				xy = (720,1700)
+			elif image_type == 'error_entry_ny':
+				xy = (540,1700)
 			elif image_type == 'title':
 				xy = (720,1280)
 			elif image_type == 'menu':
@@ -173,7 +176,10 @@ if __name__ == '__main__':
 			break
 		except OSError as e:
 			print(sys.exc_info()[0])
-			subprocess.Popen([ADB,'connect',arg.tcpip_addr], stdout=subprocess.PIPE).communicate(timeout=10)
+			try:
+				subprocess.Popen([ADB,'connect',arg.tcpip_addr], stdout=subprocess.PIPE).communicate(timeout=10)
+			except:
+				pass
 			time.sleep(10)
 			fail_count += 1
 		except:
