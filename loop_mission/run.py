@@ -143,6 +143,13 @@ if __name__ == '__main__':
 					xy = (720,1150) # hard
 				elif arg.battle_select_2 == 2:
 					xy = (720,1600) # normal
+			elif image_type == 'battle_select_multi_2x':
+				if arg.battle_select_2 == 0:
+					xy = (720,1000) # very hard
+				elif arg.battle_select_2 == 1:
+					xy = (720,1450) # hard
+				elif arg.battle_select_2 == 2:
+					xy = (720,1900) # normal
 			elif image_type == 'battle_select_multii_2':
 				if arg.battle_select_2 == 0:
 					xy = (720,500) # very hard
@@ -163,7 +170,7 @@ if __name__ == '__main__':
 			elif image_type == 'battle_end_3':
 				xy = (720,2450)
 			elif image_type == 'battle_bad_network':
-				xy = (720,1280)
+				xy = (1000,1700)
 			elif image_type == 'error':
 				xy = (720,2000)
 			elif image_type == 'error_entry':
