@@ -8,6 +8,7 @@ import argparse
 import datetime
 import sys
 import random
+import traceback
 
 ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
 #ADB = '/Users/jenkins/Library/Android/sdk/platform-tools/adb'
@@ -193,7 +194,8 @@ if __name__ == '__main__':
 		except KeyboardInterrupt as e:
 			break
 		except OSError as e:
-			print(sys.exc_info()[0])
+			#print(sys.exc_info()[0])
+			traceback.print_exception(*sys.exc_info())
 			try:
 				subprocess.Popen([ADB,'disconnect'], stdout=subprocess.PIPE).communicate(timeout=10)
 				time.sleep(1)
