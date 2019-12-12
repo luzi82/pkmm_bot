@@ -10,8 +10,8 @@ import sys
 import random
 import traceback
 
-#ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
-ADB = '/Users/luzi.leung/Library/Android/sdk/platform-tools/adb'
+ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
+#ADB = '/Users/jenkins/Library/Android/sdk/platform-tools/adb'
 
 if __name__ == '__main__':
 
@@ -53,9 +53,11 @@ if __name__ == '__main__':
 		image_sample_list = None
 		image_data = None
 
+	last_act_time = time.time()
 	fail_count = 0
 	while True:
 		print('HBRBLHOVFW datetime={datetime} fail_count={fail_count}'.format(datetime=datetime.datetime.now(),fail_count=fail_count))
+		now_act_time = time.time()
 		if fail_count >= 10:
 			break
 		try:
@@ -94,6 +96,13 @@ if __name__ == '__main__':
 			min_diff = min(image_type_to_diff_dict.values())
 			if min_diff > 10:
 				print('None {0}'.format(min_diff))
+				if now_act_time - last_act_time > 600:
+					print('OAAYAXQPPX kill app')
+					subprocess.Popen([ADB,'shell','am','force-stop','com.dena.a12026418'], stdout=subprocess.PIPE).communicate(timeout=10)
+					time.sleep(10)
+					print('VUIQGQOKBL start app')
+					subprocess.Popen([ADB,'shell','am','start','-n','com.dena.a12026418/com.dena.kenya.Kenya'], stdout=subprocess.PIPE).communicate(timeout=10)
+					last_act_time = now_act_time
 				continue
 	
 			#print(list(image_type_to_diff_dict.items()))
@@ -172,6 +181,8 @@ if __name__ == '__main__':
 			xy = tuple(i+random.randint(-5,5) for i in xy)
 			subprocess.Popen([ADB,'-s',arg.tcpip_addr,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
+			last_act_time = now_act_time
+			
 			time.sleep(5)
 		except KeyboardInterrupt as e:
 			break
@@ -180,6 +191,7 @@ if __name__ == '__main__':
 			traceback.print_exception(*sys.exc_info())
 			try:
 				subprocess.Popen([ADB,'disconnect'], stdout=subprocess.PIPE).communicate(timeout=10)
+				time.sleep(1)
 				subprocess.Popen([ADB,'connect',arg.tcpip_addr], stdout=subprocess.PIPE).communicate(timeout=10)
 			except:
 				pass
