@@ -2,6 +2,7 @@ import subprocess
 import PIL.Image
 import io
 import os
+import os.path
 import numpy
 import time
 import argparse
@@ -9,6 +10,7 @@ import datetime
 import sys
 import random
 import traceback
+import re
 
 ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
 #ADB = '/Users/jenkins/Library/Android/sdk/platform-tools/adb'
@@ -18,9 +20,9 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument("tcpip_addr", type=str)
 	parser.add_argument("solo_multi", type=str)
-	parser.add_argument("battle_select_0", type=int)
-	parser.add_argument("battle_select_1", type=int)
-	parser.add_argument("battle_select_2", type=int)
+	parser.add_argument("battle_select_0", type=str)
+	parser.add_argument("battle_select_1", type=str)
+	parser.add_argument("battle_select_2", type=str)
 	arg = parser.parse_args()
 
 	image_type_to_data_dict = {}
@@ -29,8 +31,10 @@ if __name__ == '__main__':
 	for image_sample_list_name in image_sample_list_list:
 		image_sample_list = []
 		image_sample_list_path = os.path.join('image_sample_list_list',image_sample_list_name)
+		if not os.path.isdir(image_sample_list_path): continue
 		image_sample_name_list = os.listdir(image_sample_list_path)
 		for image_sample_name in image_sample_name_list:
+			if not image_sample_name.endswith('.png'): continue
 			image_sample_path = os.path.join(image_sample_list_path,image_sample_name)
 			image_sample = PIL.Image.open(image_sample_path)
 			image_sample = image_sample.convert('RGB')
@@ -120,43 +124,48 @@ if __name__ == '__main__':
 					xy = (1080,320)
 				elif image_type == 'battle_select_multi_0' and arg.solo_multi == 's':
 					xy = (360,320)
-				elif arg.battle_select_0 == 0:
+				elif arg.battle_select_0 == '0':
 					xy = (720,650)
-				elif arg.battle_select_0 == 1:
+				elif arg.battle_select_0 == '1':
 					xy = (720,950)
-				elif arg.battle_select_0 == 2:
+				elif arg.battle_select_0 == '2':
 					xy = (720,1250)
-				elif arg.battle_select_0 == 3:
+				elif arg.battle_select_0 == '3':
 					xy = (720,1550)
 			elif image_type == 'battle_select_solo_1' or image_type == 'battle_select_multi_1':
-				if arg.battle_select_1 == 0:
+				if arg.battle_select_1 == '0':
 					xy = (720,700)
-				elif arg.battle_select_1 == 1:
+				elif arg.battle_select_1 == '1':
 					xy = (720,1100)
-				elif arg.battle_select_1 == 2:
+				elif arg.battle_select_1 == '2':
 					xy = (720,1500)
-				elif arg.battle_select_1 == 3:
+				elif arg.battle_select_1 == '3':
 					xy = (720,1900)
 			elif image_type == 'battle_select_solo_2' or image_type == 'battle_select_multi_2':
 				if arg.battle_select_2 == 0:
 					xy = (720,700) # very hard
-				elif arg.battle_select_2 == 1:
+				elif arg.battle_select_2 == '1':
 					xy = (720,1150) # hard
-				elif arg.battle_select_2 == 2:
+				elif arg.battle_select_2 == '2':
 					xy = (720,1600) # normal
+				else:
+					g = re.fullmatch('(\\d+),(\\d+)',arg.battle_select_2)
+					x = int(g.group(1))
+					y = int(g.group(2))
+					xy = (x,y)
 			elif image_type == 'battle_select_multi_2x':
 				if arg.battle_select_2 == 0:
 					xy = (720,1000) # very hard
-				elif arg.battle_select_2 == 1:
+				elif arg.battle_select_2 == '1':
 					xy = (720,1450) # hard
-				elif arg.battle_select_2 == 2:
+				elif arg.battle_select_2 == '2':
 					xy = (720,1900) # normal
 			elif image_type == 'battle_select_multii_2':
 				if arg.battle_select_2 == 0:
 					xy = (720,500) # very hard
-				elif arg.battle_select_2 == 1:
+				elif arg.battle_select_2 == '1':
 					xy = (720,950) # hard
-				elif arg.battle_select_2 == 2:
+				elif arg.battle_select_2 == '2':
 					xy = (720,1400) # normal
 			elif image_type == 'battle_select_multi_3':
 				xy = (360,1280)
@@ -190,7 +199,7 @@ if __name__ == '__main__':
 			
 			last_act_time = now_act_time
 			
-			time.sleep(5)
+			time.sleep(4)
 		except KeyboardInterrupt as e:
 			break
 		except OSError as e:
