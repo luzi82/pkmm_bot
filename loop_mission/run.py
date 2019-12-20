@@ -143,7 +143,7 @@ if __name__ == '__main__':
 				elif arg.battle_select_1 == '3':
 					xy = (720,1900)
 			elif image_type == 'battle_select_solo_2' or image_type == 'battle_select_multi_2':
-				if arg.battle_select_2 == 0:
+				if arg.battle_select_2 == '0':
 					xy = (720,700) # very hard
 				elif arg.battle_select_2 == '1':
 					xy = (720,1150) # hard
@@ -204,7 +204,7 @@ if __name__ == '__main__':
 		except KeyboardInterrupt as e:
 			break
 		except OSError as e:
-			#print(sys.exc_info()[0])
+			print(sys.exc_info()[0])
 			traceback.print_exception(*sys.exc_info())
 			try:
 				subprocess.Popen([arg.adb,'disconnect'], stdout=subprocess.PIPE).communicate(timeout=10)
@@ -216,5 +216,6 @@ if __name__ == '__main__':
 			fail_count += 1
 		except:
 			print(sys.exc_info()[0])
+			traceback.print_exception(*sys.exc_info())
 			time.sleep(10)
 			fail_count += 1
