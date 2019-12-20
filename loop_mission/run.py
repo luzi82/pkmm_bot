@@ -12,12 +12,13 @@ import random
 import traceback
 import re
 
-ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
+#ADB = '/home/luzi82/Android/Sdk/platform-tools/adb'
 #ADB = '/Users/jenkins/Library/Android/sdk/platform-tools/adb'
 
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
+	parser.add_argument("adb", type=str)
 	parser.add_argument("tcpip_addr", type=str)
 	parser.add_argument("solo_multi", type=str)
 	parser.add_argument("battle_select_0", type=str)
@@ -66,7 +67,7 @@ if __name__ == '__main__':
 			break
 		try:
 			print('ITOFBVBERF')
-			process = subprocess.Popen([ADB,'-s',arg.tcpip_addr,'exec-out','screencap','-p'], stdout=subprocess.PIPE)
+			process = subprocess.Popen([arg.adb,'-s',arg.tcpip_addr,'exec-out','screencap','-p'], stdout=subprocess.PIPE)
 			stdout, stderr = process.communicate(timeout=10)
 			print('VRTYSJJQRZ')
 			bytes_in = io.BytesIO(stdout)
@@ -102,10 +103,10 @@ if __name__ == '__main__':
 				print('None {0}'.format(min_diff))
 				if now_act_time - last_act_time > 600:
 					print('OAAYAXQPPX kill app')
-					subprocess.Popen([ADB,'shell','am','force-stop','com.dena.a12026418'], stdout=subprocess.PIPE).communicate(timeout=10)
+					subprocess.Popen([arg.adb,'shell','am','force-stop','com.dena.a12026418'], stdout=subprocess.PIPE).communicate(timeout=10)
 					time.sleep(10)
 					print('VUIQGQOKBL start app')
-					subprocess.Popen([ADB,'shell','am','start','-n','com.dena.a12026418/com.dena.kenya.Kenya'], stdout=subprocess.PIPE).communicate(timeout=10)
+					subprocess.Popen([arg.adb,'shell','am','start','-n','com.dena.a12026418/com.dena.kenya.Kenya'], stdout=subprocess.PIPE).communicate(timeout=10)
 					last_act_time = now_act_time
 				continue
 	
@@ -195,7 +196,7 @@ if __name__ == '__main__':
 				xy = (1330,2330)
 			
 			xy = tuple(i+random.randint(-5,5) for i in xy)
-			subprocess.Popen([ADB,'-s',arg.tcpip_addr,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
+			subprocess.Popen([arg.adb,'-s',arg.tcpip_addr,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
 			last_act_time = now_act_time
 			
@@ -206,9 +207,9 @@ if __name__ == '__main__':
 			#print(sys.exc_info()[0])
 			traceback.print_exception(*sys.exc_info())
 			try:
-				subprocess.Popen([ADB,'disconnect'], stdout=subprocess.PIPE).communicate(timeout=10)
+				subprocess.Popen([arg.adb,'disconnect'], stdout=subprocess.PIPE).communicate(timeout=10)
 				time.sleep(1)
-				subprocess.Popen([ADB,'connect',arg.tcpip_addr], stdout=subprocess.PIPE).communicate(timeout=10)
+				subprocess.Popen([arg.adb,'connect',arg.tcpip_addr], stdout=subprocess.PIPE).communicate(timeout=10)
 			except:
 				pass
 			time.sleep(10)
