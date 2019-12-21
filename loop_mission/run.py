@@ -168,6 +168,8 @@ if __name__ == '__main__':
 				xy = (720,1280)
 			elif image_type == 'battle_end_2':
 				xy = (720,2450)
+			elif image_type == 'battle_end_2r':
+				xy = (1080,2450)
 			elif image_type == 'battle_end_3':
 				xy = (720,2450)
 			elif image_type == 'battle_bad_network':
@@ -190,7 +192,7 @@ if __name__ == '__main__':
 			
 			last_act_time = now_act_time
 			
-			time.sleep(5)
+			time.sleep(4)
 		except KeyboardInterrupt as e:
 			break
 		except OSError as e:
