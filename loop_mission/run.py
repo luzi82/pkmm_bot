@@ -142,6 +142,23 @@ if __name__ == '__main__':
 					xy = (720,1500)
 				elif arg.battle_select_1 == '3':
 					xy = (720,1900)
+				else:
+					bs1s = arg.battle_select_1.split(',')
+					xy = []
+					while len(bs1s)>2:
+						xy.append('u')
+						bs1s.pop(0)
+					xy.append(int(bs1s[0]))
+					xy.append(int(bs1s[1]))
+			elif image_type == 'battle_select_multi_1c':
+				if arg.battle_select_1 == '0':
+					xy = (720,440)
+				elif arg.battle_select_1 == '1':
+					xy = (720,840)
+				elif arg.battle_select_1 == '2':
+					xy = (720,1240)
+				elif arg.battle_select_1 == '3':
+					xy = (720,1640)
 			elif image_type == 'battle_select_solo_2' or image_type == 'battle_select_multi_2':
 				if arg.battle_select_2 == '0':
 					xy = (720,700) # very hard
@@ -154,15 +171,22 @@ if __name__ == '__main__':
 					x = int(g.group(1))
 					y = int(g.group(2))
 					xy = (x,y)
+			elif image_type == 'battle_select_multi_2_high':
+				if arg.battle_select_2 == '0':
+					xy = (720,500) # very hard
+				elif arg.battle_select_2 == '1':
+					xy = (720,950) # hard
+				elif arg.battle_select_2 == '2':
+					xy = (720,1400) # normal
 			elif image_type == 'battle_select_multi_2x':
-				if arg.battle_select_2 == 0:
+				if arg.battle_select_2 == '0':
 					xy = (720,1000) # very hard
 				elif arg.battle_select_2 == '1':
 					xy = (720,1450) # hard
 				elif arg.battle_select_2 == '2':
 					xy = (720,1900) # normal
 			elif image_type == 'battle_select_multii_2':
-				if arg.battle_select_2 == 0:
+				if arg.battle_select_2 == '0':
 					xy = (720,500) # very hard
 				elif arg.battle_select_2 == '1':
 					xy = (720,950) # hard
@@ -182,6 +206,8 @@ if __name__ == '__main__':
 				xy = (1080,2450)
 			elif image_type == 'battle_end_3':
 				xy = (720,2450)
+			elif image_type == 'battle_end_3r':
+				xy = (1080,2450)
 			elif image_type == 'battle_bad_network':
 				xy = (1000,1700)
 			elif image_type == 'error':
@@ -189,14 +215,21 @@ if __name__ == '__main__':
 			elif image_type == 'error_entry':
 				xy = (720,1700)
 			elif image_type == 'error_entry_ny':
-				xy = (540,1700)
+				xy = (540,1700) # no when no group
+				#xy = (900,1700) # yes when no group
 			elif image_type == 'title':
 				xy = (720,1280)
 			elif image_type == 'menu':
 				xy = (720,2450)
 			elif image_type == 'news':
 				xy = (1330,2330)
+			elif image_type == 'new_mission':
+				xy = (720,2000)
 			
+			while len(xy)>2:
+				subprocess.Popen([arg.adb,'-s',arg.tcpip_addr,'shell','input','swipe','720','2200','720','200'], stdout=subprocess.PIPE).communicate(timeout=10)
+				time.sleep(1)
+				xy.pop(0)
 			xy = tuple(i+random.randint(-5,5) for i in xy)
 			subprocess.Popen([arg.adb,'-s',arg.tcpip_addr,'shell','input','tap',str(xy[0]),str(xy[1])], stdout=subprocess.PIPE).communicate(timeout=10)
 			
